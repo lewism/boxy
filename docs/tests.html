@@ -96,6 +96,14 @@
           <li>
             <a href='#' onclick='Boxy.confirm("Please confirm?", function() { alert("Confirmed!"); });'>Confirm</a>
           </li>
+          <li>
+            <a href='#' onclick='Boxy.select("Make your choice:", [["One", 1], ["Two", 2], ["Three", 3]], {title: "Choose", confirm: function(selection) { alert("You chose: " + selection); }, cancel: function() { alert("cancelled"); }, after: function() { alert("after"); } });'>Select</a>
+          <li>
+            <a href='#' onclick='Boxy.select("Make your choice:", ["One", "Two", "Three"], { title: "Choose", confirm: function(selection) { alert("You chose: " + selection); }, cancel: function() { alert("cancelled"); }, after: function() { alert("after"); } });'>Select (simple)</a>
+          </li>
+          <li>
+            <a href='#' onclick='Boxy.select("Make your choice:", "<select><option>1</option><option>2</option></select>", { title: "Choose", confirm: function(selection) { alert("You chose: " + selection); }, cancel: function() { alert("cancelled"); }, after: function() { alert("after"); } });'>Select (options string)</a>
+          </li>
         </ul>
         
         <h2>Z-Index</h2>

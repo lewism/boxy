@@ -247,6 +247,65 @@ jQuery.extend(Boxy, {
         new Boxy(body, options);
         
     },
+
+    // asks the user to pick a value from a select tag
+    // choices should be an array of arrays, containing
+    // text,value pairs or an array of strings e.g.
+    // [["One","1"], ["Two", "2"], ["Three", "3"]] or
+    // ["One", "Two", "Three"]
+    // 
+    // option keys
+    //   confirm: callback which is passed the selected
+    //            value as its only argument
+    //   cancel:  callback fired when user cancels
+    //   after:   callback fired after confirm or cancel
+    select: function(label, choices, options) {
+        
+        options = jQuery.extend({modal: true, closeable: false, confirm: Boxy.EF, cancel: Boxy.EF, after: Boxy.EF},
+                                options || {},
+                                {show: true, unloadOnHide: true});
+        
+        var select;
+        
+        if(choices instanceof Array) {
+            select = jQuery('<select name="choices"/>');
+
+            jQuery.each(choices, function() {   
+                var text = (this instanceof Array ? this[0] : "" + this);
+                var val  = (this instanceof Array ? (this[1] || this[0]) : this);
+                select.append(jQuery('<option/>').text(text).attr('value', val));
+            });         
+        } else {
+            select = choices;
+        }
+                                
+        var wrapper = jQuery('<div/>');                     
+                                
+        var body = jQuery('<div class="select"/>')
+                        .append(jQuery('<label for="choices"/>').text(label))
+                        .append(select);
+        
+        var buttons = jQuery('<form class="answers"></form>')
+                        .html('<input type="button" value="OK"/> <input type="button" value="Cancel"/>');
+
+        jQuery('input[type=button]', buttons).click(function() {
+            var clicked  = this;
+            var selected = jQuery('option:selected', body).val(); 
+            Boxy.get(this).hide(function() {
+                if(clicked.value == "OK") {
+                    options.confirm(selected);
+                } else {
+                    options.cancel();
+                }
+                options.after();
+            });
+        });
+
+        wrapper.append(body);
+        wrapper.append(buttons);
+        
+        new Boxy(wrapper, options);
+    },
     
     // returns true if a modal boxy is visible, false otherwise
     isModalVisible: function() {

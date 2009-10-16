@@ -242,6 +242,10 @@ function setTitle() { recent().setTitle(prompt("Enter new title:")); }
     <a href='#' id='confirm-actuator'>Confirmation - <code>Boxy.confirm()</code> -
       callback only fired if user selects 'OK'</a>
   </li>
+  <li>
+    <a href='#' id='select-actuator'>Select - <code>Boxy.select()</code> - 
+      confirm or cancel callback fired on dismissal</a>
+  </li>
 </ul>
 
 <pre>&lt;script type=&#x27;text/javascript&#x27;&gt;
@@ -258,6 +262,17 @@ $(function() {
   });
   $(&#x27;#confirm-actuator&#x27;).click(function() {
     Boxy.confirm(&quot;Please confirm:&quot;, function() { alert(&#x27;Confirmed!&#x27;); }, {title: &#x27;Message&#x27;});
+    return false;
+  });
+  $(&#x27;#select-actuator&#x27;).click(function() {
+    Boxy.select(&quot;Make your choice:&quot;, [["One","1"], ["Two","2"], ["Three","3"]], 
+      {
+        title: &quot;Choose&quot;,
+        confirm: function(selection) {
+          alert(&quot; You chose: &quot; + selection);
+        }
+      }
+    );
     return false;
   });
 });
@@ -277,6 +292,17 @@ $(function() {
   });
   $('#confirm-actuator').click(function() {
     Boxy.confirm("Please confirm:", function() { alert('Confirmed!'); }, {title: 'Message'});
+    return false;
+  });
+  $('#select-actuator').click(function() {
+    Boxy.select('Make your choice:', [["One","1"], ["Two","2"], ["Three","3"]], 
+      {
+        title: 'Choose',
+        confirm: function(selection) {
+          alert('You chose: ' + selection);
+        }
+      }
+    );
     return false;
   });
 });
